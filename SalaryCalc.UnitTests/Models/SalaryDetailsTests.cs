@@ -1,4 +1,6 @@
 ﻿using SalaryCalc.Models;
+using System.Globalization;
+using System.Threading;
 using Xunit;
 
 namespace SalaryCalc.UnitTests.Models
@@ -9,6 +11,9 @@ namespace SalaryCalc.UnitTests.Models
         public void ToString_Should_Return_A_String_With_All_Values()
         {
             // arrange
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+
             var salaryDetails = new SalaryDetails
             {
                 Salary = 10.123m,
@@ -18,7 +23,7 @@ namespace SalaryCalc.UnitTests.Models
                 SocialSecurityTax = 6789.2m
             };  
 
-            var expected = "Salary: 10,12 \n  SocialSecurityTax: 6789,20 \n  BaseSalaryToCalculateIncomeTax: 10,00 \n  IncomeTax: 1,12 \n  NetSalary: 1,98";
+            var expected = "Salary: 10.12 \n  SocialSecurityTax: 6789.20 \n  BaseSalaryToCalculateIncomeTax: 10.00 \n  IncomeTax: 1.12 \n  NetSalary: 1.98";
 
             // act
             var result = salaryDetails.ToString();
