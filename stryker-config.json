@@ -7,9 +7,9 @@
     "reporters": [ "html", "dashboard", "dots" ],
     "concurrency": 10,
     "thresholds": {
-      "high": 98,
-      "low": 95,
-      "break": 90
+      "high": 95,
+      "low": 80,
+      "break": 70
     },
     "since": {
       "enabled": true,
