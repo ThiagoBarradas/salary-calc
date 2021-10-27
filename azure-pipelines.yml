@@ -206,10 +206,10 @@ stages:
         else
             echo "Report not created"
         fi
-      name: CheckResult
-      displayName: Check if file was created
+      name: RunStryker
+      displayName: Run Stryker .NET
     - task: PublishMutationReport@0
-      condition: eq(variables['MutationReportCreated'], 'true')
+      condition: eq(variables['RunStryker.MutationReportCreated'], 'true')
       displayName: Publish Mutation Test Report
       inputs: 
         reportPattern: '**/mutation-report.html'
