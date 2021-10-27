@@ -200,6 +200,7 @@ stages:
     - script: | 
         dotnet tool install -g dotnet-stryker --version 1.0.0
         STRYKER_RESULT=$`dotnet stryker --dashboard-api-key $(StrykerDashboardApiKey_SalaryCalc) --version $(MutationVersion)`
+        echo "$STRYKER_RESULT"
         if [[ "$STRYKER_RESULT" =~ "Your html report has been generated at:" ]]; then
             echo "Report created"
             echo "##vso[task.setvariable variable=MutationReportCreated;isOutput=true]true"
