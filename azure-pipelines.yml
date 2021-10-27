@@ -193,8 +193,9 @@ stages:
     steps:
     - task: run-stryker@1
       displayName: 'Run mutations'
-      testProject: '$(test_project_path)'
-      parameters: --reporters "['html', 'dashboard', 'progess']" --dashboard-api-key $(mutation_api_key) -project github.com/$(Build.Repository.Name) -version $(MutationVersion) --git-diff-target "develop" --diff
+      inputs:
+        testProject: '$(test_project_path)'
+        parameters: --reporters "['html', 'dashboard', 'progess']" --dashboard-api-key $(mutation_api_key) -project github.com/$(Build.Repository.Name) -version $(MutationVersion) --git-diff-target "develop" --diff
     - task: PublishMutationReport@0
       displayName: Publish Mutation Test Report
       continueOnError: true
