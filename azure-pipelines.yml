@@ -27,6 +27,7 @@ variables:
   test_project_path: 'SalaryCalc.UnitTests/SalaryCalc.UnitTests.csproj'
   execute_mutation: 'true'
   execute_sonarcloud: 'true'
+  sonarcloud_exclusions: '**/SalaryCalc.Console/Program.cs'
   sonarcloud_project: 'ThiagoBarradas_salary-calc'
   sonarcloud_organization: 'thiagobarradas-github'
   sonarcloud_account: 'SonarCloudBarradas' 
@@ -198,11 +199,19 @@ stages:
     steps:
     - script: | 
         dotnet tool install -g dotnet-stryker --version 1.0.0
-        dotnet stryker --dashboard-api-key $(StrykerDashboardApiKey_SalaryCalc) --version $(MutationVersion)
-      displayName: 'Run mutations' 
+        STRYKER_RESULT=$`dotnet stryker --dashboard-api-key $(StrykerDashboardApiKey_SalaryCalc) --version $(MutationVersion)`
+        echo "$STRYKER_RESULT"
+        if [[ "$STRYKER_RESULT" =~ "Your html report has been generated at:" ]]; then
+            echo "Report created"
+            echo "##vso[task.setvariable variable=MutationReportCreated;isOutput=true]true"
+        else
+            echo "Report not created"
+        fi
+      name: RunStryker
+      displayName: Run Stryker .NET
     - task: PublishMutationReport@0
+      condition: eq(variables['RunStryker.MutationReportCreated'], 'true')
       displayName: Publish Mutation Test Report
-      continueOnError: true
       inputs: 
         reportPattern: '**/mutation-report.html'
 
@@ -244,6 +253,7 @@ stages:
         extraProperties: |
           sonar.sourceEncoding=UTF-8
           sonar.scm.forceReloadAll=true
+          sonar.exclusions=$(sonarcloud_exclusions)
           $(OpencoverSonar)
           $(SonarMasterWhenTag)
     - script: |
