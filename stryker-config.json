@@ -1,0 +1,19 @@
+{
+  "stryker-config": {
+    "solution": "SalaryCalc.sln",
+    "project": "SalaryCalc/SalaryCalc.csproj",
+    "test-projects": [ "SalaryCalc.UnitTests/SalaryCalc.UnitTests.csproj" ],
+    "mutation-level": "Complete",
+    "reporters": [ "html", "dashboard", "dots" ],
+    "concurrency": 10,
+    "thresholds": {
+      "high": 95,
+      "low": 80,
+      "break": 70
+    },
+    "since": {
+      "enabled": true,
+      "target": "master"
+    }
+  }
+} 
