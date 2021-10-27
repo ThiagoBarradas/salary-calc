@@ -9,18 +9,18 @@
       "dashboard",
       "dots" 
     ],
-    "concurrency": 5,
+    "concurrency": 4,
     "thresholds": {
       "high": 95,
       "low": 80,
       "break": 70
     },
     "since": {
-      "enabled": false,
-      "target": "master",
+      "enabled": true,
+      "target": "release/1.0.3",
       "ignore-changes-in": [
-        ".git",
-        ".github",
+        ".git/**/*",
+        ".github/**/*",
         "LICENSE",
         "*.md",
         "*.yml",
