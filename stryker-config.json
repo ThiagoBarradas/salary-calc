@@ -16,7 +16,7 @@
       "break": 70
     },
     "since": {
-      "enabled": true,
+      "enabled": false,
       "target": "master",
       "ignore-changes-in": [
         ".git",
