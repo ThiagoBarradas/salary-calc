@@ -4,16 +4,29 @@
     "project": "SalaryCalc/SalaryCalc.csproj",
     "test-projects": [ "SalaryCalc.UnitTests/SalaryCalc.UnitTests.csproj" ],
     "mutation-level": "Complete",
-    "reporters": [ "html", "dashboard", "dots" ],
-    "concurrency": 10,
+    "reporters": [
+      "html",
+      "dashboard",
+      "dots" 
+    ],
+    "concurrency": 5,
     "thresholds": {
       "high": 95,
       "low": 80,
       "break": 70
     },
     "since": {
-      "enabled": false,
-      "target": "master"
+      "enabled": true,
+      "target": "master",
+      "ignore-changes-in": [
+        ".git",
+        ".github",
+        "LICENSE",
+        "*.md",
+        "*.yml",
+        "*.json",
+        "SalaryCalc.Console/**/*.*"
+      ]
     }
   }
-} 
+}
