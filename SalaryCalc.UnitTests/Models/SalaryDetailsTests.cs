@@ -11,8 +11,8 @@ namespace SalaryCalc.UnitTests.Models
         public void ToString_Should_Return_A_String_With_All_Values()
         {
             // arrange
-            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            //Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            //Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
             var salaryDetails = new SalaryDetails
             {

@@ -154,6 +154,10 @@ stages:
                           "-reporttypes:Cobertura;HTMLInline;HTMLChart"
         echo "##vso[task.setvariable variable=OpencoverSonar;isOutput=true]sonar.cs.opencover.reportsPaths=$(Pipeline.Workspace)/result.opencover.xml"
         ls $(System.DefaultWorkingDirectory)/$(test_project_base_folder)/results
+        if [ -z "$(ls -A $(System.DefaultWorkingDirectory)/$(test_project_base_folder)/results)" ]; then
+           echo "### Error in some unit test!!!"
+           exit 1
+        fi
       displayName: Running Unit Tests
       name: UnitTestsTask
     - task: PublishPipelineArtifact@1
