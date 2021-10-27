@@ -2,7 +2,6 @@
 # https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud
 # https://marketplace.visualstudio.com/items?itemName=SimondeLang.sonarcloud-buildbreaker
 # https://marketplace.visualstudio.com/items?itemName=gittools.gitversion
-# https://marketplace.visualstudio.com/items?itemName=raschmitt.run-stryker-net-task
 # https://marketplace.visualstudio.com/items?itemName=stryker-mutator.mutation-report-publisher
 #
 # - CI/CD for git flow
@@ -26,7 +25,6 @@ variables:
   test_project_base_folder: 'SalaryCalc.UnitTests'
   test_project_path: 'SalaryCalc.UnitTests/SalaryCalc.UnitTests.csproj'
   execute_mutation: 'true'
-  mutation_api_key: '$(StrykerDashboardApiKey_SalaryCalc)'
   execute_sonarcloud: 'true'
   sonarcloud_project: 'ThiagoBarradas_salary-calc'
   sonarcloud_organization: 'thiagobarradas-github'
@@ -154,7 +152,7 @@ stages:
                           "-reporttypes:Cobertura;HTMLInline;HTMLChart"
         echo "##vso[task.setvariable variable=OpencoverSonar;isOutput=true]sonar.cs.opencover.reportsPaths=$(Pipeline.Workspace)/result.opencover.xml"
         ls $(System.DefaultWorkingDirectory)/$(test_project_base_folder)/results
-        if [ -z "$(ls -A $(System.DefaultWorkingDirectory)/$(test_project_base_folder)/results)" ]; then
+        if [ ! -f $(System.DefaultWorkingDirectory)/$(test_project_base_folder)/results/result.opencover.xml ]; then
            echo "### Error in some unit test!!!"
            exit 1
         fi
@@ -193,13 +191,14 @@ stages:
         eq(variables['execute_mutation'], 'true')
       )
     variables:
-      MutationVersion: $[ dependencies.UpdateBuildVersion.outputs['UpdateBuildVersionTask.MutationVersion'] ]
+      - name: MutationVersion
+        value: $[ dependencies.UpdateBuildVersion.outputs['UpdateBuildVersionTask.MutationVersion'] ]
+      - group: StrykerCredentials
     steps:
-    - task: run-stryker@1
-      displayName: 'Run mutations'
-      inputs:
-        testProject: '$(test_project_path)'
-        parameters: --reporters "['html', 'dashboard', 'dots']" --dashboard-api-key $(mutation_api_key) -project github.com/$(Build.Repository.Name) -version $(MutationVersion) --git-diff-target "develop" --diff
+    - script: | 
+        dotnet tool install -g dotnet-stryker --version 1.0.0
+        dotnet stryker --dashboard-api-key $(StrykerDashboardApiKey_SalaryCalc) --version $(MutationVersion)
+      displayName: 'Run mutations' 
     - task: PublishMutationReport@0
       displayName: Publish Mutation Test Report
       continueOnError: true
