@@ -201,9 +201,17 @@ stages:
         dotnet tool install -g dotnet-stryker --version 1.0.0
         dotnet stryker --dashboard-api-key $(StrykerDashboardApiKey_SalaryCalc) --version $(MutationVersion)
       displayName: 'Run mutations' 
+    - script: |
+        if ls **/mutation-report.html 1> /dev/null 2>&1; then
+            echo "Report created!"
+            echo "##vso[task.setvariable variable=MutationReportCreated;isOutput=true]true"
+        else
+            echo "Report not created!"
+        fi
+      name: Check if file was created
     - task: PublishMutationReport@0
+      condition: eq(variables['MutationReportCreated'], 'true')
       displayName: Publish Mutation Test Report
-      continueOnError: true
       inputs: 
         reportPattern: '**/mutation-report.html'
 
