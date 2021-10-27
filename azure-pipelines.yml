@@ -72,7 +72,7 @@ stages:
             echo "Generate Preview Release Version"
             echo "Version: $(Build.SourceBranchName)"
             echo "         $(Build.SourceBranchName)-preview.$(current_counter)"
-            echo "##vso[task.setvariable variable=MutationBranch;isOutput=true]$(Build.SourceBranchName)"
+            echo "##vso[task.setvariable variable=MutationVersion;isOutput=true]$(Build.SourceBranchName)"
             echo "##vso[build.updatebuildnumber]$(Build.SourceBranchName)-preview.$(current_counter)"
             echo "##vso[task.setvariable variable=PureVersion;isOutput=true]$(Build.SourceBranchName)"
         elif [[ "$(Build.SourceBranch)" =~ "/tags/" ]];
@@ -81,11 +81,11 @@ stages:
             echo "Version: $(Build.SourceBranchName)"
             echo "##vso[build.updatebuildnumber]$(Build.SourceBranchName)"
             echo "##vso[task.setvariable variable=SonarMasterWhenTag;isOutput=true]sonar.branch.name=master"
-            echo "##vso[task.setvariable variable=MutationBranch;isOutput=true]master"
+            echo "##vso[task.setvariable variable=MutationVersion;isOutput=true]master"
             echo "##vso[task.setvariable variable=PureVersion;isOutput=true]$(Build.SourceBranchName)"
         else
             echo "Generate Development Version"
-            echo "##vso[task.setvariable variable=MutationBranch;isOutput=true]$(Build.SourceBranchName)"
+            echo "##vso[task.setvariable variable=MutationVersion;isOutput=true]$(Build.SourceBranchName)"
             echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-develop"
             echo "Version: $(Build.BuildNumber)-develop"
         fi
