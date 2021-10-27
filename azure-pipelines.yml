@@ -27,6 +27,7 @@ variables:
   test_project_path: 'SalaryCalc.UnitTests/SalaryCalc.UnitTests.csproj'
   execute_mutation: 'true'
   execute_sonarcloud: 'true'
+  sonarcloud_exclusions: '**/SalaryCalc.Console/Program.cs'
   sonarcloud_project: 'ThiagoBarradas_salary-calc'
   sonarcloud_organization: 'thiagobarradas-github'
   sonarcloud_account: 'SonarCloudBarradas' 
@@ -244,6 +245,7 @@ stages:
         extraProperties: |
           sonar.sourceEncoding=UTF-8
           sonar.scm.forceReloadAll=true
+          sonar.exclusions=$(sonarcloud_exclusions)
           $(OpencoverSonar)
           $(SonarMasterWhenTag)
     - script: |
