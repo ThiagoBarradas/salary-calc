@@ -20,7 +20,7 @@ variables:
   organization: 'barradas'
   solution_path: 'SalaryCalc.sln'
   sdk_project_name: 'SalaryCalc'
-  sdk_project_path: 'SalaryCalc.csproj'
+  sdk_project_path: 'SalaryCalc/SalaryCalc.csproj'
   net_version: 'netstandard2.0'
   execute_test: 'true'
   test_project_base_folder: 'SalaryCalc.UnitTests'
