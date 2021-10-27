@@ -195,7 +195,7 @@ stages:
       displayName: 'Run mutations'
       inputs:
         testProject: '$(test_project_path)'
-        parameters: --reporters "['html', 'dashboard', 'progess']" --dashboard-api-key $(mutation_api_key) -project github.com/$(Build.Repository.Name) -version $(MutationVersion) --git-diff-target "develop" --diff
+        parameters: --reporters "['html', 'dashboard', 'dots']" --dashboard-api-key $(mutation_api_key) -project github.com/$(Build.Repository.Name) -version $(MutationVersion) --git-diff-target "develop" --diff
     - task: PublishMutationReport@0
       displayName: Publish Mutation Test Report
       continueOnError: true
