@@ -82,7 +82,7 @@ stages:
             echo "Version: $(Build.SourceBranchName)"
             echo "##vso[build.updatebuildnumber]$(Build.SourceBranchName)"
             echo "##vso[task.setvariable variable=SonarMasterWhenTag;isOutput=true]sonar.branch.name=master"
-            echo "##vso[task.setvariable variable=MutationVersion;isOutput=true]master"
+            echo "##vso[task.setvariable variable=MutationVersion;isOutput=true]master --since:false"
             echo "##vso[task.setvariable variable=PureVersion;isOutput=true]$(Build.SourceBranchName)"
         else
             echo "Generate Development Version"
@@ -218,7 +218,7 @@ stages:
         in(dependencies.UpdateBuildVersion.result, 'Succeeded'),
         in(dependencies.Build.result, 'Succeeded'),
         in(dependencies.UnitTests.result, 'Succeeded', 'Skipped'),
-        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped'),
+        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped', 'Warning'),
         eq(variables['execute_sonarcloud'], 'true')
       )
     workspace:
@@ -274,7 +274,7 @@ stages:
         eq(dependencies.UpdateBuildVersion.result, 'Succeeded'),
         in(dependencies.Build.result, 'Succeeded', 'Skipped'),
         in(dependencies.UnitTests.result, 'Succeeded', 'Skipped'),
-        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped'),
+        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped', 'Warning'),
         in(dependencies.QualityAnalysis.result, 'Succeeded', 'Skipped'),
         or
         (
