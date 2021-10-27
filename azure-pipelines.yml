@@ -218,7 +218,7 @@ stages:
         in(dependencies.UpdateBuildVersion.result, 'Succeeded'),
         in(dependencies.Build.result, 'Succeeded'),
         in(dependencies.UnitTests.result, 'Succeeded', 'Skipped'),
-        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped'),
+        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped', 'Warning'),
         eq(variables['execute_sonarcloud'], 'true')
       )
     workspace:
@@ -274,7 +274,7 @@ stages:
         eq(dependencies.UpdateBuildVersion.result, 'Succeeded'),
         in(dependencies.Build.result, 'Succeeded', 'Skipped'),
         in(dependencies.UnitTests.result, 'Succeeded', 'Skipped'),
-        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped'),
+        in(dependencies.MutationTests.result, 'Succeeded', 'Skipped', 'Warning'),
         in(dependencies.QualityAnalysis.result, 'Succeeded', 'Skipped'),
         or
         (
