@@ -208,7 +208,8 @@ stages:
         else
             echo "Report not created!"
         fi
-      name: Check if file was created
+      name: CheckResult
+      displayName: Check if file was created
     - task: PublishMutationReport@0
       condition: eq(variables['MutationReportCreated'], 'true')
       displayName: Publish Mutation Test Report
